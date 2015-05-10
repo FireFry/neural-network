@@ -10,7 +10,10 @@ public class NeuralNetwork {
     List<Matrix> matrices = new ArrayList<>();
 
     public NeuralNetwork(int firstLayer, int secondLayer, int... otherLayers) {
-        Random random = new Random(405315);
+        this(new Random(), firstLayer, secondLayer, otherLayers);
+    }
+
+    public NeuralNetwork(Random random, int firstLayer, int secondLayer, int... otherLayers) {
         matrices.add(Matrices.random(random, firstLayer + 1, secondLayer));
         int prev = secondLayer;
         for (int layerSize : otherLayers) {
@@ -19,9 +22,8 @@ public class NeuralNetwork {
         }
     }
 
-    public void train(TrainingData trainingData) {
-        Vector output = process(trainingData.input);
-        // TODO
+    public void train(Vector input, Vector output) {
+        // TODO implement
     }
 
     public Vector process(Vector input) {
