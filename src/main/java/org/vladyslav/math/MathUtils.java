@@ -34,4 +34,32 @@ public class MathUtils {
         });
     }
 
+    public static Vector sigmoidPrime(Vector v) {
+        return new VectorSnapshot(new Vector() {
+            @Override
+            public int size() {
+                return v.size();
+            }
+
+            @Override
+            public double get(int index) {
+                double exp = Math.exp(-v.get(index));
+                return exp / ((exp + 1) * (exp + 1));
+            }
+        });
+    }
+
+    public static Vector minus(Vector a, Vector b) {
+        return new VectorSnapshot(new Vector() {
+            @Override
+            public int size() {
+                return a.size();
+            }
+
+            @Override
+            public double get(int index) {
+                return a.get(index) - b.get(index);
+            }
+        });
+    }
 }

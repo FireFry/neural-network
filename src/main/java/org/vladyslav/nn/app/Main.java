@@ -15,16 +15,16 @@ public class Main {
 
         Vector output;
 
-        output = nn.process(Vectors.create(0, 0));
+        output = nn.forward(Vectors.create(0, 0));
         assert Vectors.create(1, 0).equals(output);
 
-        output = nn.process(Vectors.create(0, 1));
+        output = nn.forward(Vectors.create(0, 1));
         assert Vectors.create(1, 0).equals(output);
 
-        output = nn.process(Vectors.create(1, 0));
+        output = nn.forward(Vectors.create(1, 0));
         assert Vectors.create(1, 0).equals(output);
 
-        output = nn.process(Vectors.create(1, 1));
+        output = nn.forward(Vectors.create(1, 1));
         assert Vectors.create(0, 1).equals(output);
     }
 }

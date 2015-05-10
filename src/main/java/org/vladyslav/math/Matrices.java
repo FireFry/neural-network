@@ -21,4 +21,23 @@ public class Matrices {
             }
         });
     }
+
+    public static Matrix view(Vector vector) {
+        return new AbstractMatrix() {
+            @Override
+            public int width() {
+                return 1;
+            }
+
+            @Override
+            public int height() {
+                return vector.size();
+            }
+
+            @Override
+            public double get(int row, int col) {
+                return vector.get(col);
+            }
+        };
+    }
 }
