@@ -28,17 +28,18 @@ public class NeuralNetwork {
     public void train(Matrix x, Matrix y) {
         Stack<Matrix> a = new Stack<>();
         Stack<Matrix> z = new Stack<>();
-        List<Matrix> d = new ArrayList<>();
+        Stack<Matrix> d = new Stack<>();
         a.add(x);
         for (Matrix w : weights) {
-            z.add(MathUtils.multiply(Matrices.bias(a.get(a.size() - 1)), w));
-            a.add(MathUtils.sigmoid(z.get(z.size() - 1)));
+            z.add(MathUtils.multiply(Matrices.bias(a.peek()), w));
+            a.add(MathUtils.sigmoid(z.peek()));
         }
-        d.add(MathUtils.minus(a.get(a.size() - 1), y));
-        for (int i = d.size() - 2; i > 0; i--) {
+        d.add(MathUtils.minus(a.pop(), y));
+        z.pop();
+        for (int i = weights.size() - 1; i > 0; i--) {
             Matrix wT = MathUtils.transpose(weights.get(i));
-            Matrix zDerivative = Matrices.bias(MathUtils.sigmoidDerivative(z.get(i - 1)));
-            Matrix delta = MathUtils.product(MathUtils.multiply(d.get(i - 1), wT), zDerivative);
+            Matrix zDerivative = Matrices.bias(MathUtils.sigmoidDerivative(z.pop()));
+            Matrix delta = MathUtils.product(MathUtils.multiply(d.peek(), wT), zDerivative);
             d.add(delta);
         }
     }
