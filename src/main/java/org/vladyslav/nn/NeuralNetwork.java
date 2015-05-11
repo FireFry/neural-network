@@ -7,6 +7,7 @@ import org.vladyslav.math.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class NeuralNetwork {
     private List<Matrix> weights = new ArrayList<>();
@@ -25,24 +26,20 @@ public class NeuralNetwork {
     }
 
     public void train(Matrix x, Matrix y) {
-        List<Matrix> a = new ArrayList<>();
-        List<Matrix> z = new ArrayList<>();
+        Stack<Matrix> a = new Stack<>();
+        Stack<Matrix> z = new Stack<>();
         List<Matrix> d = new ArrayList<>();
         a.add(x);
-        z.add(null);
-        d.add(null);
         for (Matrix w : weights) {
             z.add(MathUtils.multiply(Matrices.bias(a.get(a.size() - 1)), w));
             a.add(MathUtils.sigmoid(z.get(z.size() - 1)));
-            d.add(null); // Reserve space for later usage
         }
-        d.set(d.size() - 1, MathUtils.minus(a.get(a.size() - 1), y));
+        d.add(MathUtils.minus(a.get(a.size() - 1), y));
         for (int i = d.size() - 2; i > 0; i--) {
-            Matrix nextDelta = d.get(i + 1);
             Matrix wT = MathUtils.transpose(weights.get(i));
-            Matrix zDerivative = Matrices.bias(MathUtils.sigmoidDerivative(z.get(i)));
-            Matrix delta = MathUtils.product(MathUtils.multiply(nextDelta, wT), zDerivative);
-            d.set(i, delta);
+            Matrix zDerivative = Matrices.bias(MathUtils.sigmoidDerivative(z.get(i - 1)));
+            Matrix delta = MathUtils.product(MathUtils.multiply(d.get(i - 1), wT), zDerivative);
+            d.add(delta);
         }
     }
 
