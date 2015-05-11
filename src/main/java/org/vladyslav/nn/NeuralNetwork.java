@@ -1,6 +1,8 @@
 package org.vladyslav.nn;
 
-import org.vladyslav.math.*;
+import org.vladyslav.math.MathUtils;
+import org.vladyslav.math.Matrices;
+import org.vladyslav.math.Matrix;
 
 import java.util.ArrayList;
 import java.util.List;
