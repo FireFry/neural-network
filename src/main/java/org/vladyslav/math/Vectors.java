@@ -18,4 +18,18 @@ public class Vectors {
             }
         });
     }
+
+    public static Vector ones(int size) {
+        return new AbstractVector() {
+            @Override
+            public int size() {
+                return size;
+            }
+
+            @Override
+            public double get(int index) {
+                return 1.0;
+            }
+        };
+    }
 }

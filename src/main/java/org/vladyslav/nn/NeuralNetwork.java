@@ -22,25 +22,22 @@ public class NeuralNetwork {
         }
     }
 
-    public void train(Vector x, Vector y) {
-        List<Vector> a = new ArrayList<>();
-        List<Vector> z = new ArrayList<>();
+    public void train(Matrix x, Matrix y) {
+        List<Matrix> a = new ArrayList<>();
+        List<Matrix> z = new ArrayList<>();
         a.add(x);
         for (Matrix w : weights) {
-            Vector nextZ = MathUtils.multiply(Vectors.bias(a.get(a.size() - 1)), w);
+            Matrix nextZ = MathUtils.multiply(Matrices.bias(a.get(a.size() - 1)), w);
             z.add(nextZ);
             a.add(MathUtils.sigmoid(nextZ));
         }
-        for (int i = a.size() - 1; i > 0; i--) {
-            Vector delta = MathUtils.multiply(MathUtils.minus(y, a.get(i)), Matrices.view(MathUtils.sigmoidPrime(z.get(i))));
-            Vector dJdW = MathUtils.multiply(a.get(i - 1), Matrices.view(delta));
-        }
+
     }
 
-    public Vector forward(Vector input) {
-        Vector x = input;
+    public Matrix forward(Matrix input) {
+        Matrix x = input;
         for (Matrix m : weights) {
-            x = MathUtils.sigmoid(MathUtils.multiply(Vectors.bias(x), m));
+            x = MathUtils.sigmoid(MathUtils.multiply(Matrices.bias(x), m));
         }
         return x;
     }

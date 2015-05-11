@@ -1,6 +1,6 @@
 package org.vladyslav.math;
 
-class MatrixSnapshot extends AbstractMatrix {
+public class MatrixSnapshot extends AbstractMatrix {
     private final double[][] data;
     private final int height;
     private final int width;

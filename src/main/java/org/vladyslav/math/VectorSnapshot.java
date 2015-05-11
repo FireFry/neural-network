@@ -1,6 +1,6 @@
 package org.vladyslav.math;
 
-class VectorSnapshot extends AbstractVector {
+public class VectorSnapshot extends AbstractVector {
     private final double[] a;
 
     public VectorSnapshot(Vector vector) {

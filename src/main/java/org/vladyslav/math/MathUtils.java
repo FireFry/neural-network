@@ -20,6 +20,29 @@ public class MathUtils {
         });
     }
 
+    public static Matrix multiply(Matrix a, Matrix b) {
+        return new MatrixSnapshot(new Matrix() {
+            @Override
+            public int width() {
+                return a.width();
+            }
+
+            @Override
+            public int height() {
+                return b.height();
+            }
+
+            @Override
+            public double get(int row, int col) {
+                double sum = 0.0;
+                for (int i = 0; i < a.height(); i++) {
+                    sum += a.get(row, i) * b.get(i, col);
+                }
+                return sum;
+            }
+        });
+    }
+
     public static Vector sigmoid(Vector v) {
         return new VectorSnapshot(new Vector() {
             @Override
@@ -30,6 +53,25 @@ public class MathUtils {
             @Override
             public double get(int index) {
                 return 1.0 / (1.0 + Math.exp(-v.get(index)));
+            }
+        });
+    }
+
+    public static Matrix sigmoid(Matrix m) {
+        return new MatrixSnapshot(new Matrix() {
+            @Override
+            public int width() {
+                return m.width();
+            }
+
+            @Override
+            public int height() {
+                return m.height();
+            }
+
+            @Override
+            public double get(int row, int col) {
+                return 1.0 / (1.0 + Math.exp(-m.get(row, col)));
             }
         });
     }
