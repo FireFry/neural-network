@@ -8,9 +8,9 @@ public class MatrixSnapshot extends AbstractMatrix {
     public MatrixSnapshot(Matrix matrix) {
         width = matrix.width();
         height = matrix.height();
-        data = new double[width][height];
-        for (int row = 0; row < width; row++) {
-            for (int col = 0; col < height; col++) {
+        data = new double[height][width];
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
                 data[row][col] = matrix.get(row, col);
             }
         }

@@ -25,13 +25,23 @@ public class NeuralNetwork {
     public void train(Matrix x, Matrix y) {
         List<Matrix> a = new ArrayList<>();
         List<Matrix> z = new ArrayList<>();
+        List<Matrix> d = new ArrayList<>();
         a.add(x);
+        z.add(null);
+        d.add(null);
         for (Matrix w : weights) {
-            Matrix nextZ = MathUtils.multiply(Matrices.bias(a.get(a.size() - 1)), w);
-            z.add(nextZ);
-            a.add(MathUtils.sigmoid(nextZ));
+            z.add(MathUtils.multiply(Matrices.bias(a.get(a.size() - 1)), w));
+            a.add(MathUtils.sigmoid(z.get(z.size() - 1)));
+            d.add(null); // Reserve space for later usage
         }
-
+        d.set(d.size() - 1, MathUtils.minus(a.get(a.size() - 1), y));
+        for (int i = d.size() - 2; i > 0; i--) {
+            Matrix nextDelta = d.get(i + 1);
+            Matrix wT = MathUtils.transpose(weights.get(i));
+            Matrix zDerivative = Matrices.bias(MathUtils.sigmoidDerivative(z.get(i)));
+            Matrix delta = MathUtils.product(MathUtils.multiply(nextDelta, wT), zDerivative);
+            d.set(i, delta);
+        }
     }
 
     public Matrix forward(Matrix input) {
