@@ -39,7 +39,7 @@ public abstract class Matrix {
     }
 
     public static Matrix random(Random random, int rows, int cols) {
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return rows; }
             public int cols() { return cols; }
             public double get(int row, int col) { return random.nextDouble(); }
@@ -47,7 +47,7 @@ public abstract class Matrix {
     }
 
     public static Matrix create(double[][] data) {
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return data.length; }
             public int cols() { return data.length == 0 ? 0 : data[0].length; }
             public double get(int row, int col) { return data[row][col]; }
@@ -73,7 +73,7 @@ public abstract class Matrix {
 
     public Matrix multiply(Matrix b) { Matrix a = this;
         if (a.cols() != b.rows()) throw new IllegalArgumentException();
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return b.cols(); }
             public double get(int row, int col) {
@@ -87,7 +87,7 @@ public abstract class Matrix {
     }
 
     public Matrix sigmoid() { Matrix a = this;
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return sigm(a.get(row, col)); }
@@ -96,7 +96,7 @@ public abstract class Matrix {
 
     public Matrix minus(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) - b.get(row, col); }
@@ -105,7 +105,7 @@ public abstract class Matrix {
 
     public Matrix plus(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) + b.get(row, col); }
@@ -121,7 +121,7 @@ public abstract class Matrix {
     }
 
     public Matrix sigmoidDerivative() { Matrix a = this;
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return sigmDerivative(a.get(row, col)); }
@@ -130,7 +130,7 @@ public abstract class Matrix {
 
     public Matrix product(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) * b.get(row, col); }
@@ -138,7 +138,7 @@ public abstract class Matrix {
     }
 
     public Matrix product(double d) { Matrix a = this;
-        return Matrix.copy(new Matrix() {
+        return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) * d; }
