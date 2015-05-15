@@ -40,16 +40,16 @@ public abstract class Matrix {
 
     public static Matrix random(Random random, int rows, int cols) {
         return Matrix.copy(new Matrix() {
-            public int cols() { return cols; }
             public int rows() { return rows; }
+            public int cols() { return cols; }
             public double get(int row, int col) { return random.nextDouble(); }
         });
     }
 
     public static Matrix create(double[][] data) {
         return Matrix.copy(new Matrix() {
-            public int cols() { return data.length == 0 ? 0 : data[0].length; }
             public int rows() { return data.length; }
+            public int cols() { return data.length == 0 ? 0 : data[0].length; }
             public double get(int row, int col) { return data[row][col]; }
         });
     }
@@ -65,8 +65,8 @@ public abstract class Matrix {
 
     public Matrix addBias() { Matrix a = this;
         return new Matrix() {
-            public int cols() { return a.cols() + 1; }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols() + 1; }
             public double get(int row, int col) { return col == 0 ? 1.0 : a.get(row, col - 1); }
         };
     }
@@ -74,8 +74,8 @@ public abstract class Matrix {
     public Matrix multiply(Matrix b) { Matrix a = this;
         if (a.cols() != b.rows()) throw new IllegalArgumentException();
         return Matrix.copy(new Matrix() {
-            public int cols() { return b.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return b.cols(); }
             public double get(int row, int col) {
                 double sum = 0.0;
                 for (int i = 0; i < cols(); i++) {
@@ -88,8 +88,8 @@ public abstract class Matrix {
 
     public Matrix sigmoid() { Matrix a = this;
         return Matrix.copy(new Matrix() {
-            public int cols() { return a.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
             public double get(int row, int col) { return sigm(a.get(row, col)); }
         });
     }
@@ -97,8 +97,8 @@ public abstract class Matrix {
     public Matrix minus(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
         return Matrix.copy(new Matrix() {
-            public int cols() { return a.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) - b.get(row, col); }
         });
     }
@@ -106,24 +106,24 @@ public abstract class Matrix {
     public Matrix plus(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
         return Matrix.copy(new Matrix() {
-            public int cols() { return a.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) + b.get(row, col); }
         });
     }
 
     public Matrix transpose() { Matrix a = this;
         return new Matrix() {
-            public int cols() { return a.rows(); }
             public int rows() { return a.cols(); }
+            public int cols() { return a.rows(); }
             public double get(int row, int col) { return a.get(col, row); }
         };
     }
 
     public Matrix sigmoidDerivative() { Matrix a = this;
         return Matrix.copy(new Matrix() {
-            public int cols() { return a.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
             public double get(int row, int col) { return sigmDerivative(a.get(row, col)); }
         });
     }
@@ -131,16 +131,16 @@ public abstract class Matrix {
     public Matrix product(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
         return Matrix.copy(new Matrix() {
-            public int cols() { return a.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) * b.get(row, col); }
         });
     }
 
     public Matrix product(double d) { Matrix a = this;
         return Matrix.copy(new Matrix() {
-            public int cols() { return a.cols(); }
             public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) * d; }
         });
     }
