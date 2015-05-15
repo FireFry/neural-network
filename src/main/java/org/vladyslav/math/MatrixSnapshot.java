@@ -2,28 +2,28 @@ package org.vladyslav.math;
 
 public class MatrixSnapshot extends AbstractMatrix {
     private final double[][] data;
-    private final int height;
-    private final int width;
+    private final int rows;
+    private final int cols;
 
     public MatrixSnapshot(Matrix matrix) {
-        width = matrix.width();
-        height = matrix.height();
-        data = new double[height][width];
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        cols = matrix.cols();
+        rows = matrix.rows();
+        data = new double[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 data[row][col] = matrix.get(row, col);
             }
         }
     }
 
     @Override
-    public int width() {
-        return width;
+    public int cols() {
+        return cols;
     }
 
     @Override
-    public int height() {
-        return height;
+    public int rows() {
+        return rows;
     }
 
     @Override

@@ -3,16 +3,16 @@ package org.vladyslav.math;
 import java.util.Random;
 
 public class Matrices {
-    public static Matrix random(Random random, int height, int width) {
+    public static Matrix random(Random random, int rows, int cols) {
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return width;
+            public int cols() {
+                return cols;
             }
 
             @Override
-            public int height() {
-                return height;
+            public int rows() {
+                return rows;
             }
 
             @Override
@@ -22,16 +22,16 @@ public class Matrices {
         });
     }
 
-    public static Matrix create(double[][] data, int height, int width) {
+    public static Matrix create(double[][] data, int rows, int cols) {
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return width;
+            public int cols() {
+                return cols;
             }
 
             @Override
-            public int height() {
-                return height;
+            public int rows() {
+                return rows;
             }
 
             @Override
@@ -44,13 +44,13 @@ public class Matrices {
     public static Matrix bias(Matrix x) {
         return new AbstractMatrix() {
             @Override
-            public int width() {
-                return x.width() + 1;
+            public int cols() {
+                return x.cols() + 1;
             }
 
             @Override
-            public int height() {
-                return x.height();
+            public int rows() {
+                return x.rows();
             }
 
             @Override

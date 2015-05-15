@@ -11,24 +11,24 @@ public class MathUtils {
     }
 
     public static Matrix multiply(Matrix a, Matrix b) {
-        if (a.width() != b.height()) {
+        if (a.cols() != b.rows()) {
             throw new IllegalArgumentException();
         }
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return b.width();
+            public int cols() {
+                return b.cols();
             }
 
             @Override
-            public int height() {
-                return a.height();
+            public int rows() {
+                return a.rows();
             }
 
             @Override
             public double get(int row, int col) {
                 double sum = 0.0;
-                for (int i = 0; i < a.width(); i++) {
+                for (int i = 0; i < a.cols(); i++) {
                     sum += a.get(row, i) * b.get(i, col);
                 }
                 return sum;
@@ -39,13 +39,13 @@ public class MathUtils {
     public static Matrix sigmoid(Matrix m) {
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return m.width();
+            public int cols() {
+                return m.cols();
             }
 
             @Override
-            public int height() {
-                return m.height();
+            public int rows() {
+                return m.rows();
             }
 
             @Override
@@ -56,18 +56,18 @@ public class MathUtils {
     }
 
     public static Matrix minus(Matrix a, Matrix b) {
-        if (a.width() != b.width() || a.height() != b.height()) {
+        if (a.cols() != b.cols() || a.rows() != b.rows()) {
             throw new IllegalArgumentException();
         }
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return a.width();
+            public int cols() {
+                return a.cols();
             }
 
             @Override
-            public int height() {
-                return a.height();
+            public int rows() {
+                return a.rows();
             }
 
             @Override
@@ -80,13 +80,13 @@ public class MathUtils {
     public static Matrix transpose(Matrix m) {
         return new AbstractMatrix() {
             @Override
-            public int width() {
-                return m.height();
+            public int cols() {
+                return m.rows();
             }
 
             @Override
-            public int height() {
-                return m.width();
+            public int rows() {
+                return m.cols();
             }
 
             @Override
@@ -99,13 +99,13 @@ public class MathUtils {
     public static MatrixSnapshot sigmoidDerivative(Matrix m) {
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return m.width();
+            public int cols() {
+                return m.cols();
             }
 
             @Override
-            public int height() {
-                return m.height();
+            public int rows() {
+                return m.rows();
             }
 
             @Override
@@ -116,23 +116,42 @@ public class MathUtils {
     }
 
     public static Matrix product(Matrix a, Matrix b) {
-        if (a.width() != b.width() || a.height() != b.height()) {
+        if (a.cols() != b.cols() || a.rows() != b.rows()) {
             throw new IllegalArgumentException();
         }
         return new MatrixSnapshot(new Matrix() {
             @Override
-            public int width() {
-                return a.width();
+            public int cols() {
+                return a.cols();
             }
 
             @Override
-            public int height() {
-                return a.height();
+            public int rows() {
+                return a.rows();
             }
 
             @Override
             public double get(int row, int col) {
                 return a.get(row, col) * b.get(row, col);
+            }
+        });
+    }
+
+    public static Matrix product(Matrix a, double d) {
+        return new MatrixSnapshot(new Matrix() {
+            @Override
+            public int cols() {
+                return a.cols();
+            }
+
+            @Override
+            public int rows() {
+                return a.rows();
+            }
+
+            @Override
+            public double get(int row, int col) {
+                return a.get(row, col) * d;
             }
         });
     }

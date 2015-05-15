@@ -5,16 +5,16 @@ public abstract class AbstractMatrix implements Matrix {
     public String toString() {
         StringBuilder b = new StringBuilder();
         b.append("Matrix[");
-        b.append(height());
+        b.append(rows());
         b.append(":");
-        b.append(width());
+        b.append(cols());
         b.append("]");
         b.append('{');
-        for (int row = 0; row < height(); row++) {
+        for (int row = 0; row < rows(); row++) {
             b.append('{');
-            for (int col = 0; col < width(); col++) {
+            for (int col = 0; col < cols(); col++) {
                 b.append(get(row, col));
-                if (col < width() - 1) {
+                if (col < cols() - 1) {
                     b.append(", ");
                 }
             }

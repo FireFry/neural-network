@@ -1,7 +1,7 @@
 package org.vladyslav.math;
 
 public interface Matrix {
-    int width();
-    int height();
+    int cols();
+    int rows();
     double get(int row, int col);
 }
