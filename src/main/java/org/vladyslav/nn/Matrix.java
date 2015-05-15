@@ -54,13 +54,13 @@ public abstract class Matrix {
         });
     }
 
-    public static double sigm(double x) {
+    public static double sigmoid(double x) {
         return 1.0 / (1.0 + Math.exp(-x));
     }
 
-    public static double sigmDerivative(double x) {
-        double sigm = sigm(x);
-        return sigm * (1 - sigm);
+    public static double sigmoidDerivative(double x) {
+        double sigmoid = sigmoid(x);
+        return sigmoid * (1 - sigmoid);
     }
 
     public Matrix addBias() { Matrix a = this;
@@ -90,7 +90,7 @@ public abstract class Matrix {
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
-            public double get(int row, int col) { return sigm(a.get(row, col)); }
+            public double get(int row, int col) { return sigmoid(a.get(row, col)); }
         });
     }
 
@@ -124,7 +124,7 @@ public abstract class Matrix {
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
-            public double get(int row, int col) { return sigmDerivative(a.get(row, col)); }
+            public double get(int row, int col) { return sigmoidDerivative(a.get(row, col)); }
         });
     }
 
