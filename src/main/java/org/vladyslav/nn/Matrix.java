@@ -46,11 +46,11 @@ public abstract class Matrix {
         });
     }
 
-    public static Matrix of(double[][] data) {
+    public static Matrix of(int rows, int cols, double value) {
         return copy(new Matrix() {
-            public int rows() { return data.length; }
-            public int cols() { return data.length == 0 ? 0 : data[0].length; }
-            public double get(int row, int col) { return data[row][col]; }
+            public int rows() { return rows; }
+            public int cols() { return cols; }
+            public double get(int row, int col) { return value; }
         });
     }
 
@@ -95,6 +95,14 @@ public abstract class Matrix {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols() + 1; }
             public double get(int row, int col) { return col == 0 ? 1.0 : a.get(row, col - 1); }
+        };
+    }
+
+    public Matrix removeBias() { Matrix a = this;
+        return new Matrix() {
+            public int rows() { return a.rows(); }
+            public int cols() { return a.cols() - 1; }
+            public double get(int row, int col) { return a.get(row, col + 1); }
         };
     }
 
