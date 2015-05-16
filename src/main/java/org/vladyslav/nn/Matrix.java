@@ -46,11 +46,38 @@ public abstract class Matrix {
         });
     }
 
-    public static Matrix create(double[][] data) {
+    public static Matrix of(double[][] data) {
         return copy(new Matrix() {
             public int rows() { return data.length; }
             public int cols() { return data.length == 0 ? 0 : data[0].length; }
             public double get(int row, int col) { return data[row][col]; }
+        });
+    }
+
+    public static Matrix row(double... values) {
+        return new Matrix() {
+            public int rows() { return 1; }
+            public int cols() { return values.length; }
+            public double get(int row, int col) { return values[col]; }
+        };
+    }
+
+    public static Matrix combineRows(Matrix firstRow, Matrix... otherRows) {
+        return copy(new Matrix() {
+            public int rows() { return 1 + otherRows.length; }
+            public int cols() { return firstRow.cols(); }
+            public double get(int row, int col) {
+                return row < 1 ? firstRow.get(0, col) : otherRows[row - 1].get(0, col);
+            }
+        });
+    }
+
+    public static Matrix range(double from, double to, double step) {
+        final int size = (int) Math.ceil((to - from) / step);
+        return copy(new Matrix() {
+            public int rows() { return 1; }
+            public int cols() { return size; }
+            public double get(int row, int col) { return from + col * step; }
         });
     }
 
@@ -72,13 +99,13 @@ public abstract class Matrix {
     }
 
     public Matrix multiply(Matrix b) { Matrix a = this;
-        if (a.cols() != b.rows()) throw new IllegalArgumentException();
+        if (a.cols() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return b.cols(); }
             public double get(int row, int col) {
                 double sum = 0.0;
-                for (int i = 0; i < cols(); i++) {
+                for (int i = 0; i < a.cols(); i++) {
                     sum += a.get(row, i) * b.get(i, col);
                 }
                 return sum;
@@ -95,7 +122,7 @@ public abstract class Matrix {
     }
 
     public Matrix minus(Matrix b) { Matrix a = this;
-        if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
+        if (a.cols() != b.cols() || a.rows() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
@@ -104,7 +131,7 @@ public abstract class Matrix {
     }
 
     public Matrix plus(Matrix b) { Matrix a = this;
-        if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
+        if (a.cols() != b.cols() || a.rows() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
@@ -129,7 +156,7 @@ public abstract class Matrix {
     }
 
     public Matrix product(Matrix b) { Matrix a = this;
-        if (a.cols() != b.cols() || a.rows() != b.rows()) throw new IllegalArgumentException();
+        if (a.cols() != b.cols() || a.rows() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
@@ -143,5 +170,13 @@ public abstract class Matrix {
             public int cols() { return a.cols(); }
             public double get(int row, int col) { return a.get(row, col) * d; }
         });
+    }
+
+    private static Matrix incompatible(Matrix a, Matrix b) {
+        throw new IllegalArgumentException("Incompatible matrices " +
+                a.rows() + ":" + a.cols() + " and " +
+                b.rows() + ":" + b.cols() + ": " +
+                "a = " + a + ", " +
+                "b = " + b);
     }
 }
