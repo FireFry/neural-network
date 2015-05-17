@@ -6,7 +6,7 @@ public class Perceptron {
     private Matrix weight;
 
     public Perceptron(int numberOfFutures) {
-        weight = Matrix.create(numberOfFutures + 1, 1, 0.0);
+        weight = Matrix.fill(numberOfFutures + 1, 1, 0.0);
     }
 
     public Matrix forward(Matrix input) {
