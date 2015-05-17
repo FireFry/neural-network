@@ -136,8 +136,8 @@ public abstract class Matrix {
     }
 
     /**
-     * Creates a row filled given values. Is often used in pair with combineRows() method, which is a convenient method
-     * to declare two-dimensional matrix. To create a vector (column) transpose the result matrix.
+     * Creates a single-row matrix filled with given values. Is often used in pair with combineRows() method, which is
+     * a convenient way to declare two-dimensional matrix. To create a vector (column) transpose the result matrix.
      */
     public static Matrix row(double... values) {
         return matrix(1, values.length, (r, c) -> values[c]);
