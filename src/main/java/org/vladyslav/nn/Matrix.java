@@ -46,7 +46,7 @@ public abstract class Matrix {
         });
     }
 
-    public static Matrix of(int rows, int cols, double value) {
+    public static Matrix create(int rows, int cols, double value) {
         return copy(new Matrix() {
             public int rows() { return rows; }
             public int cols() { return cols; }
@@ -72,7 +72,7 @@ public abstract class Matrix {
         });
     }
 
-    public static Matrix range(double from, double to, double step) {
+    public static Matrix rangeRow(double from, double to, double step) {
         final int size = (int) Math.ceil((to - from) / step);
         return copy(new Matrix() {
             public int rows() { return 1; }
@@ -110,20 +110,6 @@ public abstract class Matrix {
                 return sum;
             }
         });
-    }
-
-    public Matrix sigmoid() { Matrix a = this;
-        return copy(new Matrix() {
-            public int rows() { return a.rows(); }
-            public int cols() { return a.cols(); }
-            public double get(int row, int col) {
-                return 1.0 / (1.0 + Math.exp(-a.get(row, col)));
-            }
-        });
-    }
-
-    public Matrix sigmoidDerivative() {
-        return applyPolynomial(0, 1, -1);
     }
 
     public Matrix minus(Matrix b) { Matrix a = this;
