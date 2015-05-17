@@ -81,15 +81,6 @@ public abstract class Matrix {
         });
     }
 
-    public static double sigmoid(double x) {
-        return 1.0 / (1.0 + Math.exp(-x));
-    }
-
-    public static double sigmoidDerivative(double x) {
-        double sigmoid = sigmoid(x);
-        return sigmoid * (1 - sigmoid);
-    }
-
     public Matrix addBias() { Matrix a = this;
         return new Matrix() {
             public int rows() { return a.rows(); }
@@ -125,16 +116,30 @@ public abstract class Matrix {
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
-            public double get(int row, int col) { return sigmoid(a.get(row, col)); }
+            public double get(int row, int col) {
+                return 1.0 / (1.0 + Math.exp(-a.get(row, col)));
+            }
         });
+    }
+
+    public Matrix sigmoidDerivative() {
+        return applyPolynomial(0, 1, -1);
     }
 
     public Matrix minus(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
-            public int rows() { return a.rows(); }
-            public int cols() { return a.cols(); }
-            public double get(int row, int col) { return a.get(row, col) - b.get(row, col); }
+            public int rows() {
+                return a.rows();
+            }
+
+            public int cols() {
+                return a.cols();
+            }
+
+            public double get(int row, int col) {
+                return a.get(row, col) - b.get(row, col);
+            }
         });
     }
 
@@ -155,14 +160,6 @@ public abstract class Matrix {
         };
     }
 
-    public Matrix sigmoidDerivative() { Matrix a = this;
-        return copy(new Matrix() {
-            public int rows() { return a.rows(); }
-            public int cols() { return a.cols(); }
-            public double get(int row, int col) { return sigmoidDerivative(a.get(row, col)); }
-        });
-    }
-
     public Matrix product(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
@@ -172,11 +169,28 @@ public abstract class Matrix {
         });
     }
 
-    public Matrix product(double d) { Matrix a = this;
+    public Matrix applyPolynomial(double... polynomialCoefficients) { Matrix a = this;
         return copy(new Matrix() {
             public int rows() { return a.rows(); }
             public int cols() { return a.cols(); }
-            public double get(int row, int col) { return a.get(row, col) * d; }
+            public double get(int row, int col) {
+                double exp = 1.0;
+                double sum = 0;
+                double x = a.get(row, col);
+                for (double coefficient : polynomialCoefficients) {
+                    sum += coefficient * exp;
+                    exp *= x;
+                }
+                return sum;
+            }
+        });
+    }
+
+    public Matrix apply(Function function) { Matrix a = this;
+        return copy(new Matrix() {
+            public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
+            public double get(int row, int col) { return function.apply(a.get(row, col)); }
         });
     }
 
