@@ -115,17 +115,9 @@ public abstract class Matrix {
     public Matrix minus(Matrix b) { Matrix a = this;
         if (a.cols() != b.cols() || a.rows() != b.rows()) return incompatible(a, b);
         return copy(new Matrix() {
-            public int rows() {
-                return a.rows();
-            }
-
-            public int cols() {
-                return a.cols();
-            }
-
-            public double get(int row, int col) {
-                return a.get(row, col) - b.get(row, col);
-            }
+            public int rows() { return a.rows(); }
+            public int cols() { return a.cols(); }
+            public double get(int row, int col) { return a.get(row, col) - b.get(row, col); }
         });
     }
 
@@ -200,5 +192,9 @@ public abstract class Matrix {
             }
         }
         return sum;
+    }
+
+    public interface Function {
+        double apply(double x);
     }
 }

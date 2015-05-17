@@ -49,11 +49,8 @@ public class NeuralNetwork {
     public Matrix forward(Matrix input) {
         layerOutputs.set(0, input);
         for (int j = 1; j < layersCount; j++) {
-            layerOutputs.set(j, layerOutputs.get(j - 1)
-                            .addBias()
-                            .multiply(weights.get(j - 1))
-                            .apply(x -> 1.0 / (1.0 + Math.exp(-x)))
-            );
+            Matrix layerInput = layerOutputs.get(j - 1).addBias().multiply(weights.get(j - 1));
+            layerOutputs.set(j, sigmoid(layerInput));
         }
         return layerOutputs.get(layersCount - 1);
     }
@@ -64,7 +61,7 @@ public class NeuralNetwork {
             layerDeltas.set(j - 1, layerDeltas.get(j)
                             .multiply(weights.get(j).transpose())
                             .removeBias()
-                            .product(layerOutputs.get(j).applyPolynomial(0, 1, -1))
+                            .product(sigmoidDerivative(layerOutputs.get(j)))
             );
         }
     }
@@ -79,6 +76,14 @@ public class NeuralNetwork {
                             .plus(weights.get(j))
             );
         }
+    }
+
+    private Matrix sigmoid(Matrix layerInput) {
+        return layerInput.apply(x -> 1.0 / (1.0 + Math.exp(-x)));
+    }
+
+    private Matrix sigmoidDerivative(Matrix m) {
+        return m.applyPolynomial(0, 1, -1);
     }
 
     public static double error(Matrix prediction, Matrix output) {
