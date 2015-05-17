@@ -10,9 +10,8 @@ import static org.vladyslav.nn.Matrix.row;
 
 public class NeuralNetworkApp {
     private static final Random RANDOM = new Random(31415926);
-    private static final double LEARNING_RATE = 1.0;
+    private static final double LEARNING_RATE = 1;
     private static final double TARGET_ERROR = 1e-6;
-    private static final int MAX_ITERATIONS = 100000;
 
     private static final Matrix BINARY_INPUT = combineRows(
             row(0, 0),
@@ -30,14 +29,21 @@ public class NeuralNetworkApp {
 
     public static void main(String[] args) {
         NeuralNetwork neuralNetwork = new NeuralNetwork(RANDOM, 2, 2, 1);
-        int iterationCount = 0;
-        double error;
+        long iterationCount = 0;
+        double prevError;
+        double error = Double.MAX_VALUE;
         do {
             iterationCount++;
             neuralNetwork.train(BINARY_INPUT, XOR_OUTPUT, LEARNING_RATE);
+            prevError = error;
             error = NeuralNetwork.error(neuralNetwork.forward(BINARY_INPUT), XOR_OUTPUT);
-        } while (iterationCount < MAX_ITERATIONS && error > TARGET_ERROR);
-        System.out.println("Iterations: " + iterationCount);
+        } while (error > TARGET_ERROR && prevError > error);
+        if (error > TARGET_ERROR) {
+            System.err.println("Iterations: " + iterationCount);
+            System.err.println("Error: " + error);
+        } else {
+            System.out.println("Iterations: " + iterationCount);
+        }
     }
 
 }
