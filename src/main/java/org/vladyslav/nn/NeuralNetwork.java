@@ -1,5 +1,7 @@
 package org.vladyslav.nn;
 
+import org.vladyslav.math.Matrix;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

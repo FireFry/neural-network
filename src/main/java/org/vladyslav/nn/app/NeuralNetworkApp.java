@@ -1,30 +1,27 @@
 package org.vladyslav.nn.app;
 
-import org.vladyslav.nn.Matrix;
+import org.vladyslav.math.Matrix;
 import org.vladyslav.nn.NeuralNetwork;
 
 import java.util.Random;
-
-import static org.vladyslav.nn.Matrix.combineRows;
-import static org.vladyslav.nn.Matrix.row;
 
 public class NeuralNetworkApp {
     private static final Random RANDOM = new Random(31415926);
     private static final double LEARNING_RATE = 1;
     private static final double TARGET_ERROR = 1e-6;
 
-    private static final Matrix BINARY_INPUT = combineRows(
-            row(0, 0),
-            row(0, 1),
-            row(1, 0),
-            row(1, 1)
+    private static final Matrix BINARY_INPUT = Matrix.combineRows(
+            Matrix.row(0, 0),
+            Matrix.row(0, 1),
+            Matrix.row(1, 0),
+            Matrix.row(1, 1)
     );
 
-    private static final Matrix XOR_OUTPUT = combineRows(
-            row(0 ^ 0),
-            row(0 ^ 1),
-            row(1 ^ 0),
-            row(1 ^ 1)
+    private static final Matrix XOR_OUTPUT = Matrix.combineRows(
+            Matrix.row(0 ^ 0),
+            Matrix.row(0 ^ 1),
+            Matrix.row(1 ^ 0),
+            Matrix.row(1 ^ 1)
     );
 
     public static void main(String[] args) {
@@ -45,5 +42,4 @@ public class NeuralNetworkApp {
             System.out.println("Iterations: " + iterationCount);
         }
     }
-
 }

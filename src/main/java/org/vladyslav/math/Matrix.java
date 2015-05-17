@@ -1,4 +1,4 @@
-package org.vladyslav.nn;
+package org.vladyslav.math;
 
 import java.util.Random;
 
@@ -32,6 +32,40 @@ public abstract class Matrix {
             b.append(row < rows() - 1 ? "] " : "]");
         }
         return b.append(']').toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Matrix matrix = (Matrix) o;
+
+        if (rows() != matrix.rows()) return false;
+        if (cols() != matrix.cols()) return false;
+        for (int r = 0; r < rows(); r++) {
+            for (int c = 0; c < cols(); c++) {
+                long mine = Double.doubleToLongBits(get(r, c));
+                long others = Double.doubleToLongBits(matrix.get(r, c));
+                if (mine != others) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = rows();
+        result = 31 * result + cols();
+        for (int r = 0; r < rows(); r++) {
+            for (int c = 0; c < cols(); c++) {
+                long bits = Double.doubleToLongBits(get(r, c));
+                result = 31 * result + (int)(bits ^ (bits >>> 32));
+            }
+        }
+        return result;
     }
 
     public static Matrix copy(Matrix matrix) {
@@ -173,10 +207,8 @@ public abstract class Matrix {
     private static void requires(Matrix a, Matrix b, boolean valid) {
         if (!valid) {
             throw new IllegalArgumentException("Incompatible matrices " +
-                    a.rows() + ":" + b.cols() + " and " +
-                    b.rows() + ":" + b.cols() + ": " +
-                    "a = " + a + ", " +
-                    "b = " + b);
+                    a.rows() + ":" + a.cols() + " and " +
+                    b.rows() + ":" + b.cols());
         }
     }
 }
