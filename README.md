@@ -14,3 +14,4 @@ The target audience is only one person - me.
 2. Implement mini-batch gradient descent.
 3. Implement learning rate online tuning.
 4. Implement input shifting and scaling.
+5. Implement momentum.
