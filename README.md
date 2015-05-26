@@ -13,3 +13,4 @@ The target audience is only one person - me.
 1. Implement softmax output function.
 2. Implement mini-batch gradient descent.
 3. Implement learning rate online tuning.
+4. Implement input shifting and scaling.
