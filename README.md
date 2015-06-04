@@ -15,3 +15,4 @@ The target audience is only one person - me.
 3. Implement learning rate online tuning.
 4. Implement input shifting and scaling.
 5. Implement momentum.
+6. Implement adaptive learning rates for each connection.
