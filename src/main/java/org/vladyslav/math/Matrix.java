@@ -226,23 +226,14 @@ public abstract class Matrix {
      * Applies polynomial function to each element of given matrix. Index of each coefficient corresponds to
      * the exponent of it's multiplier.
      */
-    public Matrix applyPolynomial(double... polynomialCoefficients) {
-        return matrix(rows(), cols(), (row, col) -> {
-            double exp = 1.0;
-            double sum = 0;
-            double x = get(row, col);
-            for (double coefficient : polynomialCoefficients) {
-                sum += coefficient * exp;
-                exp *= x;
-            }
-            return sum;
-        });
+    public Matrix polynomial(double... coefficients) {
+        return map(new Polynomial(coefficients));
     }
 
     /**
      * Applies given function to each element of the matrix.
      */
-    public Matrix apply(Function function) {
+    public Matrix map(Function function) {
         return matrix(rows(), cols(), (r, c) -> function.apply(get(r, c)));
     }
 
@@ -264,20 +255,6 @@ public abstract class Matrix {
             }
         }
         return sum;
-    }
-
-    /**
-     * Function that maps double to double. May be applied to each element of matrix by using apply() method from it.
-     */
-    public interface Function {
-        double apply(double x);
-    }
-
-    /**
-     * Provides convenient way to declare matrices using view() or matrix() methods and lambda expressions.
-     */
-    public interface GetMethod {
-        double get(int r, int c);
     }
 
     private static void requires(Matrix a, Matrix b, boolean valid) {

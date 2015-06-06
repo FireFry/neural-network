@@ -74,21 +74,21 @@ public class NeuralNetwork {
                             .addBias()
                             .transpose()
                             .multiply(layerDeltas.get(j))
-                            .applyPolynomial(0, learningRate)
+                            .polynomial(learningRate, 0)
                             .plus(weights.get(j))
             );
         }
     }
 
-    private Matrix sigmoid(Matrix layerInput) {
-        return layerInput.apply(x -> 1.0 / (1.0 + Math.exp(-x)));
+    private Matrix sigmoid(Matrix m) {
+        return m.map(x -> 1.0 / (1.0 + Math.exp(-x)));
     }
 
     private Matrix sigmoidDerivative(Matrix m) {
-        return m.applyPolynomial(0, 1, -1);
+        return m.polynomial(-1, 1, 0);
     }
 
     public static double error(Matrix prediction, Matrix output) {
-        return prediction.minus(output).applyPolynomial(0, 0, 1).average();
+        return prediction.minus(output).polynomial(1, 0, 0).average();
     }
 }
